@@ -303,15 +303,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#planning_application_titles" class="md-nav__link">
-    <span class="md-ellipsis">
-      planning_application_titles
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -438,15 +429,6 @@
   
 </li>
       
-        <li class="md-nav__item">
-  <a href="#planning_application_titles" class="md-nav__link">
-    <span class="md-ellipsis">
-      planning_application_titles
-    </span>
-  </a>
-  
-</li>
-      
     </ul>
   
 </nav>
@@ -471,7 +453,7 @@
 <th>Type</th>
 <th>Nullable</th>
 <th>Default</th>
-<th>Extra</th>
+<th>Foreign Key</th>
 </tr>
 </thead>
 <tbody>
@@ -479,8 +461,8 @@
 <td>uuid</td>
 <td>uuid</td>
 <td>False</td>
-<td>NULL</td>
 <td>uuid_generate_v4()</td>
+<td>NULL</td>
 </tr>
 <tr>
 <td>lpa</td>
@@ -619,15 +601,15 @@
 <td>first_imported_at</td>
 <td>timestamp</td>
 <td>False</td>
-<td>NULL</td>
 <td>CURRENT_TIMESTAMP</td>
+<td>NULL</td>
 </tr>
 <tr>
 <td>last_imported_at</td>
 <td>timestamp</td>
 <td>False</td>
-<td>NULL</td>
 <td>CURRENT_TIMESTAMP</td>
+<td>NULL</td>
 </tr>
 </tbody>
 </table>
@@ -639,7 +621,7 @@
 <th>Type</th>
 <th>Nullable</th>
 <th>Default</th>
-<th>Extra</th>
+<th>Foreign Key</th>
 </tr>
 </thead>
 <tbody>
@@ -647,7 +629,7 @@
 <td>uuid</td>
 <td>uuid</td>
 <td>False</td>
-<td>NULL</td>
+<td>uuid_generate_v4()</td>
 <td>NULL</td>
 </tr>
 <tr>
@@ -655,7 +637,7 @@
 <td>uuid</td>
 <td>False</td>
 <td>NULL</td>
-<td>NULL</td>
+<td>planning_applications.uuid</td>
 </tr>
 <tr>
 <td>date_published</td>
@@ -692,6 +674,20 @@
 <td>NULL</td>
 <td>NULL</td>
 </tr>
+<tr>
+<td>first_imported_at</td>
+<td>timestamp</td>
+<td>False</td>
+<td>CURRENT_TIMESTAMP</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>last_imported_at</td>
+<td>timestamp</td>
+<td>False</td>
+<td>CURRENT_TIMESTAMP</td>
+<td>NULL</td>
+</tr>
 </tbody>
 </table>
 <h2 id="planning_application_polygons">planning_application_polygons</h2>
@@ -702,16 +698,23 @@
 <th>Type</th>
 <th>Nullable</th>
 <th>Default</th>
-<th>Extra</th>
+<th>Foreign Key</th>
 </tr>
 </thead>
 <tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>False</td>
+<td>uuid_generate_v4()</td>
+<td>NULL</td>
+</tr>
 <tr>
 <td>planning_application_uuid</td>
 <td>uuid</td>
 <td>False</td>
 <td>NULL</td>
-<td>NULL</td>
+<td>planning_applications.uuid</td>
 </tr>
 <tr>
 <td>geometry</td>
@@ -724,42 +727,14 @@
 <td>first_imported_at</td>
 <td>timestamp</td>
 <td>False</td>
+<td>CURRENT_TIMESTAMP</td>
 <td>NULL</td>
-<td>now()</td>
 </tr>
 <tr>
 <td>last_imported_at</td>
 <td>timestamp</td>
 <td>False</td>
-<td>NULL</td>
-<td>now()</td>
-</tr>
-</tbody>
-</table>
-<h2 id="planning_application_titles">planning_application_titles</h2>
-<table>
-<thead>
-<tr>
-<th>Column</th>
-<th>Type</th>
-<th>Nullable</th>
-<th>Default</th>
-<th>Extra</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>planning_application_uuid</td>
-<td>uuid</td>
-<td>False</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>title_uuid</td>
-<td>uuid</td>
-<td>False</td>
-<td>NULL</td>
+<td>CURRENT_TIMESTAMP</td>
 <td>NULL</td>
 </tr>
 </tbody>
