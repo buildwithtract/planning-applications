@@ -277,9 +277,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#planning_applications" class="md-nav__link">
+  <a href="#planning_application" class="md-nav__link">
     <span class="md-ellipsis">
-      planning_applications
+      planning_application
     </span>
   </a>
   
@@ -295,9 +295,27 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#planning_application_polygons" class="md-nav__link">
+  <a href="#planning_application_geometries" class="md-nav__link">
     <span class="md-ellipsis">
-      planning_application_polygons
+      planning_application_geometries
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planning_applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      planning_applications
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planning_application_documents_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      planning_application_documents
     </span>
   </a>
   
@@ -403,9 +421,9 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#planning_applications" class="md-nav__link">
+  <a href="#planning_application" class="md-nav__link">
     <span class="md-ellipsis">
-      planning_applications
+      planning_application
     </span>
   </a>
   
@@ -421,9 +439,27 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#planning_application_polygons" class="md-nav__link">
+  <a href="#planning_application_geometries" class="md-nav__link">
     <span class="md-ellipsis">
-      planning_application_polygons
+      planning_application_geometries
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planning_applications" class="md-nav__link">
+    <span class="md-ellipsis">
+      planning_applications
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#planning_application_documents_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      planning_application_documents
     </span>
   </a>
   
@@ -445,6 +481,344 @@
 
 
 <h1 id="database-tables">Database Tables</h1>
+<hr />
+<h2 id="planning_application">planning_application</h2>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Type</th>
+<th>Nullable</th>
+<th>Default</th>
+<th>Foreign Key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>False</td>
+<td>uuid_generate_v4()</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>lpa</td>
+<td>varchar(255)</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>reference</td>
+<td>varchar(255)</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>website_reference</td>
+<td>varchar(255)</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>url</td>
+<td>text</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>submitted_date</td>
+<td>date</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>validated_date</td>
+<td>date</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>address</td>
+<td>varchar(255)</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>description</td>
+<td>text</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>application_status</td>
+<td>varchar(255)</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>application_decision</td>
+<td>varchar(255)</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>application_decision_date</td>
+<td>date</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>appeal_status</td>
+<td>varchar(255)</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>appeal_decision</td>
+<td>varchar(255)</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>appeal_decision_date</td>
+<td>date</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>application_type</td>
+<td>varchar(255)</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>expected_decision_level</td>
+<td>varchar(255)</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>actual_decision_level</td>
+<td>varchar(255)</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>case_officer</td>
+<td>varchar(255)</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>parish</td>
+<td>varchar(255)</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>ward</td>
+<td>varchar(255)</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>amenity_society</td>
+<td>varchar(255)</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>district_reference</td>
+<td>varchar(255)</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>applicant_name</td>
+<td>varchar(255)</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>applicant_address</td>
+<td>varchar(255)</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>environmental_assessment_requested</td>
+<td>bool</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>first_imported_at</td>
+<td>timestamp</td>
+<td>False</td>
+<td>CURRENT_TIMESTAMP</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>last_imported_at</td>
+<td>timestamp</td>
+<td>False</td>
+<td>CURRENT_TIMESTAMP</td>
+<td>NULL</td>
+</tr>
+</tbody>
+</table>
+<h2 id="planning_application_documents">planning_application_documents</h2>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Nullable</th>
+<th>Default</th>
+<th>Foreign Key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>False</td>
+<td>uuid_generate_v4()</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>planning_application_uuid</td>
+<td>uuid</td>
+<td>False</td>
+<td>NULL</td>
+<td>planning_applications.uuid</td>
+</tr>
+<tr>
+<td>date_published</td>
+<td>date</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>document_type</td>
+<td>varchar(255)</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>description</td>
+<td>text</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>url</td>
+<td>text</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>drawing_number</td>
+<td>varchar(255)</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>first_imported_at</td>
+<td>timestamp</td>
+<td>False</td>
+<td>CURRENT_TIMESTAMP</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>last_imported_at</td>
+<td>timestamp</td>
+<td>False</td>
+<td>CURRENT_TIMESTAMP</td>
+<td>NULL</td>
+</tr>
+</tbody>
+</table>
+<h2 id="planning_application_geometries">planning_application_geometries</h2>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Nullable</th>
+<th>Default</th>
+<th>Foreign Key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>False</td>
+<td>uuid_generate_v4()</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>planning_application_uuid</td>
+<td>uuid</td>
+<td>False</td>
+<td>NULL</td>
+<td>planning_applications.uuid</td>
+</tr>
+<tr>
+<td>geometry</td>
+<td>geometry</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>first_imported_at</td>
+<td>timestamp</td>
+<td>False</td>
+<td>CURRENT_TIMESTAMP</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>last_imported_at</td>
+<td>timestamp</td>
+<td>False</td>
+<td>CURRENT_TIMESTAMP</td>
+<td>NULL</td>
+</tr>
+</tbody>
+</table>
+<p>--- idox section</p>
 <h2 id="planning_applications">planning_applications</h2>
 <table>
 <thead>
@@ -620,7 +994,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="planning_application_documents">planning_application_documents</h2>
+<h2 id="planning_application_documents_1">planning_application_documents</h2>
 <table>
 <thead>
 <tr>
@@ -677,55 +1051,6 @@
 <tr>
 <td>url</td>
 <td>text</td>
-<td>False</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>first_imported_at</td>
-<td>timestamp</td>
-<td>False</td>
-<td>CURRENT_TIMESTAMP</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>last_imported_at</td>
-<td>timestamp</td>
-<td>False</td>
-<td>CURRENT_TIMESTAMP</td>
-<td>NULL</td>
-</tr>
-</tbody>
-</table>
-<h2 id="planning_application_polygons">planning_application_polygons</h2>
-<table>
-<thead>
-<tr>
-<th>Column</th>
-<th>Type</th>
-<th>Nullable</th>
-<th>Default</th>
-<th>Foreign Key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>uuid</td>
-<td>uuid</td>
-<td>False</td>
-<td>uuid_generate_v4()</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>planning_application_uuid</td>
-<td>uuid</td>
-<td>False</td>
-<td>NULL</td>
-<td>planning_applications.uuid</td>
-</tr>
-<tr>
-<td>geometry</td>
-<td>geometry</td>
 <td>False</td>
 <td>NULL</td>
 <td>NULL</td>
