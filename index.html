@@ -241,31 +241,64 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Dependencies">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      Project layout
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-up-and-running-as-a-new-developer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting up and running as a new developer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting up and running as a new developer">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#running-the-scraper-in-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running the scraper in Docker
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-the-scraper-outside-of-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running the scraper outside of Docker
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#documentation" class="md-nav__link">
     <span class="md-ellipsis">
       Documentation
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Documentation">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#commands" class="md-nav__link">
     <span class="md-ellipsis">
       Commands
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#project-layout" class="md-nav__link">
-    <span class="md-ellipsis">
-      Project layout
     </span>
   </a>
   
@@ -422,31 +455,64 @@
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Dependencies">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#project-layout" class="md-nav__link">
+    <span class="md-ellipsis">
+      Project layout
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#getting-up-and-running-as-a-new-developer" class="md-nav__link">
+    <span class="md-ellipsis">
+      Getting up and running as a new developer
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Getting up and running as a new developer">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#running-the-scraper-in-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running the scraper in Docker
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#running-the-scraper-outside-of-docker" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running the scraper outside of Docker
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
   <a href="#documentation" class="md-nav__link">
     <span class="md-ellipsis">
       Documentation
     </span>
   </a>
   
-</li>
+    <nav class="md-nav" aria-label="Documentation">
+      <ul class="md-nav__list">
         
           <li class="md-nav__item">
   <a href="#commands" class="md-nav__link">
     <span class="md-ellipsis">
       Commands
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#project-layout" class="md-nav__link">
-    <span class="md-ellipsis">
-      Project layout
     </span>
   </a>
   
@@ -475,7 +541,50 @@
 <h1 id="planning-applications">Planning Applications</h1>
 <h2 id="dependencies">Dependencies</h2>
 <p>We are using <a href="https://docs.astral.sh">uv</a> to manage our python dependencies in this project. To get started with uv, following their <a href="https://docs.astral.sh/uv/getting-started/installation">setup guide</a>.</p>
-<h3 id="documentation">Documentation</h3>
+<h2 id="project-layout">Project layout</h2>
+<pre><code>mkdocs.yml    # The configuration file.
+docs/
+    index.md  # The documentation homepage.
+    ...       # Other markdown pages, images and other files.
+</code></pre>
+<h2 id="getting-up-and-running-as-a-new-developer">Getting up and running as a new developer</h2>
+<ol>
+<li>
+<p>Download Docker if you haven't already</p>
+</li>
+<li>
+<p>Clone the repo</p>
+</li>
+<li>
+<p>Run <code>cp .env.example .env</code> to create a new .env file.</p>
+</li>
+<li>
+<p>Create a Zyte account and paste your API key into the .env file.</p>
+</li>
+<li>
+<p>Run <code>make reset_db</code> to set up a fresh postgres database.</p>
+</li>
+</ol>
+<p>You should see something like the following output eventually:</p>
+<pre><code>database   | 2024-12-28 14:33:31.524 UTC [1] LOG:  database system is ready to accept connections
+</code></pre>
+<ol>
+<li>Connect your database to a GUI</li>
+</ol>
+<p><img alt="DB GUI Connection Window" src="images/db-gui-connection-window.png" /></p>
+<ol>
+<li>There are two ways to run the scraper:</li>
+</ol>
+<h3 id="running-the-scraper-in-docker">Running the scraper in Docker</h3>
+<p>If you want to test the scraper end to end you probably want to run it in a Docker container.</p>
+<p>To do this, set <code>POSTGRES_HOST=db</code> in the .env file.</p>
+<p>Then run <code>make run lpa=&lt;LPA_NAME&gt;</code> to run the scraper.</p>
+<h3 id="running-the-scraper-outside-of-docker">Running the scraper outside of Docker</h3>
+<p>If you are actively developing, you probably don't want to have to rebuild the scrapy container every time you make a change.</p>
+<p>That's okay, because you can still run the scraper outside of the container, but keep it writing to the database inside.</p>
+<p>To do this, set <code>POSTGRES_HOST=localhost</code> in the .env file.</p>
+<p>Then run <code>uv run scrapy crawl &lt;LPA_NAME&gt;</code> to run the scraper.</p>
+<h2 id="documentation">Documentation</h2>
 <p>We are using <a href="https://www.mkdocs.org/">mkdocs</a> to build the documentation site.</p>
 <h3 id="commands">Commands</h3>
 <ul>
@@ -483,12 +592,6 @@
 <li><code>mkdocs build</code> - Build the documentation site.</li>
 <li><code>mkdocs -h</code> - Print help message and exit.</li>
 </ul>
-<h3 id="project-layout">Project layout</h3>
-<pre><code>mkdocs.yml    # The configuration file.
-docs/
-    index.md  # The documentation homepage.
-    ...       # Other markdown pages, images and other files.
-</code></pre>
 
 
 
