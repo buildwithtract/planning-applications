@@ -282,6 +282,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#running-scraper-in-docker-with-a-separate-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running scraper in Docker with a separate database
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#running-the-scraper-outside-of-docker" class="md-nav__link">
     <span class="md-ellipsis">
       Running the scraper outside of Docker
@@ -496,6 +505,15 @@
 </li>
         
           <li class="md-nav__item">
+  <a href="#running-scraper-in-docker-with-a-separate-database" class="md-nav__link">
+    <span class="md-ellipsis">
+      Running scraper in Docker with a separate database
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#running-the-scraper-outside-of-docker" class="md-nav__link">
     <span class="md-ellipsis">
       Running the scraper outside of Docker
@@ -589,6 +607,13 @@ docs/
 <p>If you want to test the scraper end to end you probably want to run it in a Docker container.</p>
 <p>To do this, set <code>POSTGRES_HOST=db</code> in the .env file.</p>
 <p>Then run <code>make run lpa=&lt;LPA_NAME&gt;</code> to run the scraper.</p>
+<h3 id="running-scraper-in-docker-with-a-separate-database">Running scraper in Docker with a separate database</h3>
+<p>Change your your POSTGRES_HOST from 127.0.0.1 to host.docker.internal in the .env file.</p>
+<p>Then run:</p>
+<pre><code class="language-bash">docker-compose build scraper
+
+docker-compose run --rm --no-deps scraper --lpas-from-earliest sheffield westminster cambridge
+</code></pre>
 <h3 id="running-the-scraper-outside-of-docker">Running the scraper outside of Docker</h3>
 <p>If you are actively developing, you probably don't want to have to rebuild the scrapy container every time you make a change.</p>
 <p>That's okay, because you can still run the scraper outside of the container, but keep it writing to the database inside.</p>
