@@ -16,7 +16,7 @@
       
       
       <link rel="icon" href="../assets/images/favicon.png">
-      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.47">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.6.3">
     
     
       
@@ -24,7 +24,7 @@
       
     
     
-      <link rel="stylesheet" href="../assets/stylesheets/main.6f8fc17f.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.d7758b05.min.css">
       
         
         <link rel="stylesheet" href="../assets/stylesheets/palette.06af60db.min.css">
@@ -206,6 +206,7 @@
   
   <span class="md-ellipsis">
     Planning Applications
+    
   </span>
   
 
@@ -226,6 +227,7 @@
   
   <span class="md-ellipsis">
     Coverage
+    
   </span>
   
 
@@ -255,6 +257,7 @@
   
   <span class="md-ellipsis">
     Database Tables
+    
   </span>
   
 
@@ -266,6 +269,7 @@
   
   <span class="md-ellipsis">
     Database Tables
+    
   </span>
   
 
@@ -314,18 +318,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#planning_applications" class="md-nav__link">
+  <a href="#planning_application_appeals" class="md-nav__link">
     <span class="md-ellipsis">
-      planning_applications
+      planning_application_appeals
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#planning_application_documents_1" class="md-nav__link">
+  <a href="#planning_application_appeals_documents" class="md-nav__link">
     <span class="md-ellipsis">
-      planning_application_documents
+      planning_application_appeals_documents
     </span>
   </a>
   
@@ -363,6 +367,7 @@
   
   <span class="md-ellipsis">
     Scrapers
+    
   </span>
   
 
@@ -388,6 +393,7 @@
   
   <span class="md-ellipsis">
     Idox
+    
   </span>
   
 
@@ -458,18 +464,18 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#planning_applications" class="md-nav__link">
+  <a href="#planning_application_appeals" class="md-nav__link">
     <span class="md-ellipsis">
-      planning_applications
+      planning_application_appeals
     </span>
   </a>
   
 </li>
       
         <li class="md-nav__item">
-  <a href="#planning_application_documents_1" class="md-nav__link">
+  <a href="#planning_application_appeals_documents" class="md-nav__link">
     <span class="md-ellipsis">
-      planning_application_documents
+      planning_application_appeals_documents
     </span>
   </a>
   
@@ -488,6 +494,7 @@
               <article class="md-content__inner md-typeset">
                 
                   
+
 
 
 <h1 id="database-tables">Database Tables</h1>
@@ -687,6 +694,13 @@
 <td>NULL</td>
 </tr>
 <tr>
+<td>is_active</td>
+<td>bool</td>
+<td>False</td>
+<td>TRUE</td>
+<td>NULL</td>
+</tr>
+<tr>
 <td>first_imported_at</td>
 <td>timestamp</td>
 <td>False</td>
@@ -806,63 +820,6 @@
 <td>planning_applications.uuid</td>
 </tr>
 <tr>
-<td>geometry</td>
-<td>geometry</td>
-<td>False</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>first_imported_at</td>
-<td>timestamp</td>
-<td>False</td>
-<td>CURRENT_TIMESTAMP</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>last_imported_at</td>
-<td>timestamp</td>
-<td>False</td>
-<td>CURRENT_TIMESTAMP</td>
-<td>NULL</td>
-</tr>
-</tbody>
-</table>
-<p>--- idox section</p>
-<h2 id="planning_applications">planning_applications</h2>
-<table>
-<thead>
-<tr>
-<th>Name</th>
-<th>Type</th>
-<th>Nullable</th>
-<th>Default</th>
-<th>Foreign Key</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>uuid</td>
-<td>uuid</td>
-<td>False</td>
-<td>uuid_generate_v4()</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>lpa</td>
-<td>varchar(255)</td>
-<td>False</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>idox_key_val</td>
-<td>varchar(255)</td>
-<td>False</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
 <td>reference</td>
 <td>varchar(255)</td>
 <td>False</td>
@@ -870,120 +827,8 @@
 <td>NULL</td>
 </tr>
 <tr>
-<td>application_received</td>
-<td>date</td>
-<td>False</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>application_validated</td>
-<td>date</td>
-<td>False</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>address</td>
-<td>varchar(255)</td>
-<td>False</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>proposal</td>
-<td>text</td>
-<td>True</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>status</td>
-<td>varchar(255)</td>
-<td>False</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>appeal_status</td>
-<td>varchar(255)</td>
-<td>False</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>appeal_decision</td>
-<td>varchar(255)</td>
-<td>False</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>application_type</td>
-<td>varchar(255)</td>
-<td>False</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>expected_decision_level</td>
-<td>varchar(255)</td>
-<td>False</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>case_officer</td>
-<td>varchar(255)</td>
-<td>False</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>parish</td>
-<td>varchar(255)</td>
-<td>False</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>ward</td>
-<td>varchar(255)</td>
-<td>True</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>amenity_society</td>
-<td>varchar(255)</td>
-<td>True</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>district_reference</td>
-<td>varchar(255)</td>
-<td>False</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>applicant_name</td>
-<td>varchar(255)</td>
-<td>False</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>applicant_address</td>
-<td>varchar(255)</td>
-<td>False</td>
-<td>NULL</td>
-<td>NULL</td>
-</tr>
-<tr>
-<td>environmental_assessment_requested</td>
-<td>bool</td>
+<td>geometry</td>
+<td>geometry</td>
 <td>False</td>
 <td>NULL</td>
 <td>NULL</td>
@@ -1004,7 +849,7 @@
 </tr>
 </tbody>
 </table>
-<h2 id="planning_application_documents_1">planning_application_documents</h2>
+<h2 id="planning_application_appeals">planning_application_appeals</h2>
 <table>
 <thead>
 <tr>
@@ -1024,35 +869,210 @@
 <td>NULL</td>
 </tr>
 <tr>
-<td>planning_application_uuid</td>
-<td>uuid</td>
-<td>False</td>
-<td>NULL</td>
-<td>planning_applications.uuid</td>
-</tr>
-<tr>
-<td>date_published</td>
-<td>date</td>
+<td>lpa</td>
+<td>text</td>
 <td>False</td>
 <td>NULL</td>
 <td>NULL</td>
 </tr>
 <tr>
-<td>document_type</td>
-<td>varchar(255)</td>
+<td>reference</td>
+<td>text</td>
 <td>False</td>
 <td>NULL</td>
 <td>NULL</td>
 </tr>
 <tr>
-<td>drawing_number</td>
-<td>varchar(255)</td>
+<td>case_id</td>
+<td>int</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>url</td>
+<td>text</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>appellant_name</td>
+<td>text</td>
 <td>True</td>
 <td>NULL</td>
 <td>NULL</td>
 </tr>
 <tr>
-<td>description</td>
+<td>agent_name</td>
+<td>text</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>site_address</td>
+<td>text</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>case_type</td>
+<td>text</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>case_officer</td>
+<td>text</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>procedure</td>
+<td>text</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>status</td>
+<td>text</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>decision</td>
+<td>text</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>start_date</td>
+<td>date</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>questionnaire_due_date</td>
+<td>date</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>statement_due_date</td>
+<td>date</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>interested_party_comments_due_date</td>
+<td>date</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>final_comments_due_date</td>
+<td>date</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>inquiry_evidence_due_date</td>
+<td>date</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>event_date</td>
+<td>date</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>decision_date</td>
+<td>date</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>linked_case_ids</td>
+<td>int[]</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>first_imported_at</td>
+<td>timestamp</td>
+<td>False</td>
+<td>CURRENT_TIMESTAMP</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>last_imported_at</td>
+<td>timestamp</td>
+<td>False</td>
+<td>CURRENT_TIMESTAMP</td>
+<td>NULL</td>
+</tr>
+</tbody>
+</table>
+<h2 id="planning_application_appeals_documents">planning_application_appeals_documents</h2>
+<table>
+<thead>
+<tr>
+<th>Column</th>
+<th>Type</th>
+<th>Nullable</th>
+<th>Default</th>
+<th>Foreign Key</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>uuid</td>
+<td>uuid</td>
+<td>False</td>
+<td>uuid_generate_v4()</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>planning_application_appeal_uuid</td>
+<td>uuid</td>
+<td>False</td>
+<td>NULL</td>
+<td>planning_application_appeals.uuid</td>
+</tr>
+<tr>
+<td>appeal_case_id</td>
+<td>int</td>
+<td>False</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>reference</td>
+<td>text</td>
+<td>True</td>
+<td>NULL</td>
+<td>NULL</td>
+</tr>
+<tr>
+<td>name</td>
 <td>text</td>
 <td>True</td>
 <td>NULL</td>
@@ -1127,10 +1147,10 @@
     </div>
     
     
-    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.expand"], "search": "../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": ["navigation.expand"], "search": "../assets/javascripts/workers/search.f8cc74c7.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../assets/javascripts/bundle.83f73b43.min.js"></script>
+      <script src="../assets/javascripts/bundle.f1b6f286.min.js"></script>
       
     
   </body>
