@@ -41,7 +41,7 @@ ROBOTSTXT_OBEY = False
 
 # Disable cookies (enabled by default)
 COOKIES_ENABLED = True
-# COOKIES_DEBUG = True
+COOKIES_DEBUG = True
 
 # Disable Telnet Console (enabled by default)
 # TELNETCONSOLE_ENABLED = False
@@ -63,6 +63,7 @@ SPIDER_MIDDLEWARES = {
 DOWNLOADER_MIDDLEWARES = {
     "scrapeops_scrapy.middleware.retry.RetryMiddleware": 550,
     "scrapy.downloadermiddlewares.retry.RetryMiddleware": None,
+    "scrapy.downloadermiddlewares.cookies.CookiesMiddleware": 700,
 }
 
 # Enable or disable extensions
