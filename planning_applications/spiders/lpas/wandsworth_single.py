@@ -1,7 +1,12 @@
+import json
 from datetime import datetime
 
 import scrapy
-from parsel import Selector
+from pyproj import Transformer
+from rich import print
+from scrapy.http.request import Request
+
+from planning_applications.items import NorthgatePlanningApplication
 
 
 class WandsworthSingleSpider(scrapy.Spider):
@@ -12,100 +17,220 @@ class WandsworthSingleSpider(scrapy.Spider):
     ]
     not_yet_working = True
 
-    # Define our special rows, and which handler needs to be used
-    special_rows = {
-        "Application Registered": "date",
-        "Comments Until": "date",
-        "Date of Committee": "date",
-        "Decision": "status_plus_date",
-        "Appeal Lodged": "date",
-        "Location Co ordinates": "easting_northing",
-    }
-
-    # define our special handlers
-    special_handlers = {
-        "date": lambda self, row: self._handle_date(row),
-        "status_plus_date": lambda self, row: self._handle_status_plus_date(row),
-        "easting_northing": lambda self, row: self._handle_easting_northing(row),
-    }
+    # Create transformer for UK National Grid to WGS84
+    transformer = Transformer.from_crs("EPSG:27700", "EPSG:4326", always_xy=True)
 
     def __init__(self, url=None, *args, **kwargs):
         super(WandsworthSingleSpider, self).__init__(*args, **kwargs)
-        # Ensure the URL is passed
         if url:
             self.start_urls = [url]
 
+    def start_requests(self):
+        for url in self.start_urls:
+            yield Request(url, callback=self.parse)
+
     def parse(self, response):
-        application_details = {}
+        planning_application = NorthgatePlanningApplication(lpa="wandsworth", url=self.start_urls[0])
 
-        for dataview in response.xpath('//div[@class="dataview"]'):
-            # Get the table heading (h1)
-            heading = dataview.xpath("h1/text()").get().split("\xa0")[0]
-            # Split the string on the non-breaking space character - everything before spaces is consistent
-            application_details[heading] = self._parse_dataview(dataview)
+        # Map of attribute names to XPath expressions and optional transform functions
+        field_mappings = {
+            "application_registered": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Application Registered"]]/text()[2]',
+                "transform": self._transform_date,
+            },
+            "comments_until": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Comments Until"]]/text()[2]',
+                "transform": self._transform_date,
+            },
+            "date_of_committee": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Date of Committee"]]/text()[2]',
+                "transform": self._transform_date,
+            },
+            "decision": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Decision"]]/text()[2]',
+                "transform": self._extract_decision_status,
+            },
+            "decision_date": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Decision"]]/text()[2]',
+                "transform": self._extract_decision_date,
+            },
+            "appeal_lodged": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Appeal Lodged"]]/text()[2]',
+                "transform": self._transform_date,
+            },
+            "appeal_decision": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Appeal Decision"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "application_number": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Application Number"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "site_address": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Site Address"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "application_type": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Application Type"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "development_type": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Development Type"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "proposal": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Proposal"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "current_status": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Current Status"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "applicant": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Applicant"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "agent": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Agent"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "wards": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Wards"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "location_coordinates": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Location Co ordinates"]]/text()[2]',
+                "transform": self._transform_easting_northing,
+            },
+            "parishes": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Parishes"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "os_mapsheet": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="OS Mapsheet"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "appeal_submitted": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Appeal Submitted?"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "case_officer": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Case Officer / Tel"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "division": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Division"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "planning_officer": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Planning Officer"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "recommendation": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Recommendation"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "determination_level": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Determination Level"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "existing_land_use": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Existing Land Use"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+            "proposed_land_use": {
+                "xpath": '//div[@class="dataview"]//li/div[span[text()="Proposed Land Use"]]/text()[2]',
+                "transform": lambda x: x.strip() if x else None,
+            },
+        }
 
-        print(application_details)
+        # Loop through each field mapping and extract the data
+        for field, mapping in field_mappings.items():
+            xpath = mapping["xpath"]
+            transform = mapping.get("transform")
 
-    def _parse_dataview(self, dataview) -> dict:
-        dataview_parsed = {}
-
-        # Work through every row in the table
-        for row in dataview.xpath("ul/li"):
-            # The text in the span is the table row name
-            row_name = row.xpath("div/span/text()").get()
-            # If we need to do something special about this row, do it
-            if row_name in self.special_rows:
-                handler = self.special_handlers.get(self.special_rows[row_name])
-                if handler:
-                    row_value = handler(self, row)
+            value = response.xpath(xpath).get()
+            if value:
+                if transform:
+                    try:
+                        processed_value = transform(value)
+                        setattr(planning_application, field, processed_value)
+                    except Exception as e:
+                        self.logger.error(f"Error processing {field}: {e}")
                 else:
-                    self.logger.error(f"No handler for {row_name}")
-                    return {}
-            else:
-                # The text in the div and outside of the span is the row value, plus some unprinted stuff
-                #    - we only want the div text
-                row_value = row.xpath("div/text()")[1].get().split("\xa0")[0]
-                # When we've finished parsing, or if we haven't parsed, store
-                dataview_parsed[row_name] = row_value
+                    setattr(planning_application, field, value.strip())
 
-        return dataview_parsed
+        print("-" * 100)
+        print(planning_application)
+        print("-" * 100)
 
-        # handler = self.handlers.get(dataview.xpath('h1/text()').get().split('\xa0')[0])
-        if handler:
-            return handler(self, dataview)
-
-    def _handle_date(self, row: Selector) -> datetime | str:
-        ### Handle DATE-ONLY rows - not status+date
-        date_string = row.xpath("div/text()")[1].get().split("\xa0")[0]
+    def _transform_date(self, date_string):
+        date_string = date_string.strip() if date_string else ""
+        if not date_string:
+            return None
         try:
             return datetime.strptime(date_string, "%d/%m/%Y")
         except Exception:
             return f"error parsing date: got {date_string}"
 
-    def _handle_status_plus_date(self, row: Selector) -> dict:
-        ### Handle STATUS+DATE rows
-        [status, date_string] = row.xpath("div/text()")[1].get().split("\xa0")
+    def _extract_decision_status(self, text):
+        if not text or text.strip() == "":
+            return None
+
+        parts = text.strip().split()
+        if len(parts) < 2:
+            return text.strip()
+
+        # Return just the status part (excluding the date)
+        return " ".join(parts[:-1])
+
+    def _extract_decision_date(self, text):
+        if not text or text.strip() == "":
+            return None
+
+        parts = text.strip().split()
+        if len(parts) < 2:
+            return None
+
         try:
-            date = datetime.strptime(date_string.strip(), "%d/%m/%Y")
+            date_string = parts[-1]
+            return datetime.strptime(date_string, "%d/%m/%Y")
         except Exception:
-            date = f"error parsing date: got {date_string}"
-        return {"status": status, "date": date}
+            return None
 
-    def _handle_easting_northing(self, row: Selector) -> dict:
-        ### Handle EASTING/NORTHING (UK grid coordinates) rows
-        # Easting/Northing is on the 15th "ul/li" row
-        # Received as a list ['Easting', '530014', 'Northing', '177704', '']
-        [_, easting, _, northing, _] = row.xpath("div/text()")[1].get().split("\xa0")
-        return {"easting": easting, "northing": northing}
+    def _transform_easting_northing(self, text):
+        if not text or text.strip() == "":
+            return None
 
-    # def _parse_heading(self, dataview) -> dict:
+        parts = text.strip().split()
+        if len(parts) < 4:
+            return text.strip()
 
-    # def _parse_application_progress_summary(self, dataview) -> dict:
+        try:
+            easting = float(parts[1])
+            northing = float(parts[3])
 
-    # def _parse_application_details(self, dataview) -> dict:
+            # Convert from EPSG:27700 (UK National Grid) to EPSG:4326 (WGS84)
+            # Note: transformer.transform returns (longitude, latitude)
+            lon, lat = self.transformer.transform(easting, northing)
 
-    # def _parse_other_information(self, dataview) -> dict:
+            # Create a GeoJSON Point with WGS84 coordinates
+            geojson = {
+                "type": "Point",
+                "coordinates": [lon, lat],  # GeoJSON uses [longitude, latitude] order
+            }
 
+            return json.dumps(geojson)
+        except Exception as e:
+            self.logger.error(f"Error converting coordinates to GeoJSON: {e}")
+            return text.strip()
+
+
+# def _parse_application_progress_summary(self, dataview) -> dict:
+
+# def _parse_application_details(self, dataview) -> dict:
+
+# def _parse_other_information(self, dataview) -> dict:
 
 # to do: parse comments as well (separate page)
 # TODO -- Grab the planning application documents (including comments) PDFs. Link is always https://planning2.wandsworth.gov.uk/planningcase/comments.aspx?case=$APPLICATION_NUMBER

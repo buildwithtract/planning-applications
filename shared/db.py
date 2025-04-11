@@ -5,7 +5,6 @@ import psycopg
 from planning_applications.utils import getenv, to_datetime_or_none
 
 database_url = getenv("DATABASE_URL")
-print(f"DATABASE_URL: {database_url}")
 
 
 def get_connection():

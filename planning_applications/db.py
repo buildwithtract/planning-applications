@@ -10,7 +10,6 @@ from planning_applications.items import (
     PlanningApplicationAppealDocument,
     PlanningApplicationDocument,
     PlanningApplicationGeometry,
-    PlanningApplicationItem,
 )
 from planning_applications.settings import DEFAULT_DATE_FORMAT
 from planning_applications.utils import to_datetime_or_none
@@ -242,7 +241,7 @@ def upsert_planning_application(cursor: psycopg.Cursor, item: PlanningApplicatio
     return row[0]
 
 
-def upsert_planning_application_item(cursor: psycopg.Cursor, item: PlanningApplicationItem) -> str:
+def upsert_planning_application_item(cursor: psycopg.Cursor, item: PlanningApplication) -> str:
     cursor.execute(
         """ INSERT INTO planning_applications (
                 lpa,
@@ -302,32 +301,32 @@ def upsert_planning_application_item(cursor: psycopg.Cursor, item: PlanningAppli
             RETURNING uuid;
             """,
         (
-            item["lpa"],
-            item["reference"],
-            item["website_reference"],
-            item["url"],
-            item["submitted_date"],
-            item["validated_date"],
-            item["address"],
-            item["description"],
-            item["application_status"],
-            item["application_decision"],
-            item["application_decision_date"],
-            item["appeal_status"],
-            item["appeal_decision"],
-            item["appeal_decision_date"],
-            item["application_type"],
-            item["expected_decision_level"],
-            item["actual_decision_level"],
-            item["case_officer"],
-            item["parish"],
-            item["ward"],
-            item["amenity_society"],
-            item["district_reference"],
-            item["applicant_name"],
-            item["applicant_address"],
-            item["environmental_assessment_requested"],
-            item["is_active"],
+            item.lpa,
+            item.reference,
+            item.website_reference,
+            item.url,
+            item.submitted_date,
+            item.validated_date,
+            item.address,
+            item.description,
+            item.application_status,
+            item.application_decision,
+            item.application_decision_date,
+            item.appeal_status,
+            item.appeal_decision,
+            item.appeal_decision_date,
+            item.application_type,
+            item.expected_decision_level,
+            item.actual_decision_level,
+            item.case_officer,
+            item.parish,
+            item.ward,
+            item.amenity_society,
+            item.district_reference,
+            item.applicant_name,
+            item.applicant_address,
+            item.environmental_assessment_requested,
+            item.is_active,
         ),
     )
 

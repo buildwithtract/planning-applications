@@ -20,6 +20,7 @@ dependencies = [
     "pytest>=7.4.3",
     "boto3>=1.34.15",
     "requests>=2.31.0",
+    "pyproj>=3.7.1",
 ]
 
 [tool.ruff]

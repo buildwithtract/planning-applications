@@ -1,13 +1,28 @@
-import warnings
 from datetime import datetime
 from typing import List, Optional
 
 import pydantic
 import scrapy
-from typing_extensions import deprecated
 
 # ---------------------------------------------------------------------------------------------------------------------
 # Base
+
+
+class PlanningApplicationDocument(pydantic.BaseModel):
+    lpa: str
+    application_reference: str
+    url: str
+    date_published: Optional[datetime] = None
+    document_type: Optional[str] = None
+    description: Optional[str] = None
+    drawing_number: Optional[str] = None
+
+
+class PlanningApplicationGeometry(pydantic.BaseModel):
+    lpa: str
+    application_reference: str
+    reference: str
+    geometry: str = pydantic.Field(repr=False)
 
 
 class PlanningApplication(pydantic.BaseModel):
@@ -42,60 +57,8 @@ class PlanningApplication(pydantic.BaseModel):
     agent_address: Optional[str] = None
     environmental_assessment_requested: Optional[bool] = None
     is_active: bool
-
-
-class PlanningApplicationDocument(pydantic.BaseModel):
-    lpa: str
-    application_reference: str
-    url: str
-    date_published: Optional[datetime] = None
-    document_type: Optional[str] = None
-    description: Optional[str] = None
-    drawing_number: Optional[str] = None
-
-
-class PlanningApplicationGeometry(pydantic.BaseModel):
-    lpa: str
-    application_reference: str
-    reference: str
-    geometry: str = pydantic.Field(repr=False)
-
-
-@deprecated("Use PlanningApplication instead")
-class PlanningApplicationItem(scrapy.Item):
-    lpa = scrapy.Field()
-    website_reference = scrapy.Field()
-    reference = scrapy.Field()
-    url = scrapy.Field()
-    submitted_date = scrapy.Field()
-    validated_date = scrapy.Field()
-    address = scrapy.Field()
-    description = scrapy.Field()
-    application_status = scrapy.Field()
-    application_decision = scrapy.Field()
-    application_decision_date = scrapy.Field()
-    appeal_status = scrapy.Field()
-    appeal_decision = scrapy.Field()
-    appeal_decision_date = scrapy.Field()
-    application_type = scrapy.Field()
-    expected_decision_level = scrapy.Field()
-    actual_decision_level = scrapy.Field()
-    case_officer = scrapy.Field()
-    case_officer_phone = scrapy.Field()
-    parish = scrapy.Field()
-    ward = scrapy.Field()
-    amenity_society = scrapy.Field()
-    comments_due_date = scrapy.Field()
-    committee_date = scrapy.Field()
-    district_reference = scrapy.Field()
-    applicant_name = scrapy.Field()
-    applicant_address = scrapy.Field()
-    agent_name = scrapy.Field()
-    agent_address = scrapy.Field()
-    environmental_assessment_requested = scrapy.Field()
-    is_active = scrapy.Field()
-    documents = scrapy.Field()
-    geometry = scrapy.Field()
+    documents: Optional[List[PlanningApplicationDocument]] = None
+    geometry: Optional[PlanningApplicationGeometry] = None
 
 
 # ---------------------------------------------------------------------------------------------------------------------
@@ -175,6 +138,43 @@ class IdoxPlanningApplicationItem(scrapy.Item):
     is_active = scrapy.Field()
     documents = scrapy.Field()
     geometry = scrapy.Field()
+
+
+# ---------------------------------------------------------------------------------------------------------------------
+# Northgate
+
+
+class NorthgatePlanningApplication(pydantic.BaseModel):
+    lpa: str
+    url: str
+    application_registered: Optional[datetime] = None
+    comments_until: Optional[datetime] = None
+    date_of_committee: Optional[datetime] = None
+    decision: Optional[str] = None
+    decision_date: Optional[datetime] = None
+    appeal_lodged: Optional[datetime] = None
+    location_coordinates: Optional[str] = None
+    application_number: Optional[str] = None
+    site_address: Optional[str] = None
+    application_type: Optional[str] = None
+    development_type: Optional[str] = None
+    proposal: Optional[str] = None
+    current_status: Optional[str] = None
+    applicant: Optional[str] = None
+    agent: Optional[str] = None
+    wards: Optional[str] = None
+    location_coordinates: Optional[str] = None
+    parishes: Optional[str] = None
+    os_mapsheet: Optional[str] = None
+    appeal_submitted: Optional[str] = None
+    appeal_decision: Optional[str] = None
+    case_officer: Optional[str] = None
+    division: Optional[str] = None
+    planning_officer: Optional[str] = None
+    recommendation: Optional[str] = None
+    determination_level: Optional[str] = None
+    existing_land_use: Optional[str] = None
+    proposed_land_use: Optional[str] = None
 
 
 # ---------------------------------------------------------------------------------------------------------------------

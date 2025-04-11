@@ -26,19 +26,18 @@ from planning_applications.items import (
     PlanningApplicationAppealDocument,
     PlanningApplicationDocument,
     PlanningApplicationGeometry,
-    PlanningApplicationItem,
 )
 from planning_applications.utils import getenv, hasenv
 
 
 class IdoxPlanningApplicationPipeline:
-    def process_item(self, idox_item: IdoxPlanningApplicationItem | Any, spider) -> PlanningApplicationItem:
+    def process_item(self, idox_item: IdoxPlanningApplicationItem | Any, spider) -> PlanningApplication:
         if not isinstance(idox_item, IdoxPlanningApplicationItem):
             return idox_item
 
         spider.logger.info("Mapping item")
 
-        item = PlanningApplicationItem(
+        item = PlanningApplication(
             lpa=idox_item["lpa"],
             website_reference=idox_item["idox_key_val"],
             reference=idox_item["reference"],
@@ -85,8 +84,7 @@ class PostgresPipeline:
         | PlanningApplicationDocument
         | PlanningApplicationAppeal
         | PlanningApplicationAppealDocument
-        | PlanningApplicationGeometry
-        | PlanningApplicationItem,
+        | PlanningApplicationGeometry,
         spider,
     ):
         if isinstance(item, PlanningApplication):
@@ -104,18 +102,27 @@ class PostgresPipeline:
         if isinstance(item, PlanningApplicationGeometry):
             return self.process_planning_application_geometry(item, spider)
 
-        if isinstance(item, PlanningApplicationItem):
-            return self.process_planning_application_item(item, spider)
-
     def process_planning_application(self, item: PlanningApplication, spider):
         spider.logger.info(f"Inserting planning application {item.reference}")
+
         try:
-            _ = upsert_planning_application(self.cur, item)
+            uuid = upsert_planning_application(self.cur, item)
+
+            if item.documents:
+                for document in item.documents:
+                    _ = upsert_planning_application_document(self.cur, uuid, document)
+
+            if item.geometry:
+                _ = upsert_planning_application_geometry(self.cur, uuid, item.geometry)
+
             self.connection.commit()
+
         except Exception as e:
-            spider.logger.error(f"Error inserting planning application into the database: {e}")
             self.connection.rollback()
+            spider.logger.error(f"Error inserting item into the database: {e}")
             raise
+
+        return item
 
     def process_planning_application_document(self, item: PlanningApplicationDocument, spider):
         spider.logger.info(f"Inserting planning application document {item.url}")
@@ -154,27 +161,6 @@ class PostgresPipeline:
             self.connection.rollback()
             spider.logger.error(f"Error inserting appeal case document into the database: {e}")
             raise
-
-    def process_planning_application_item(self, item: PlanningApplicationItem, spider):
-        spider.logger.info(f"Inserting planning application {item['reference']}")
-
-        try:
-            uuid = upsert_planning_application_item(self.cur, item)
-
-            for document in item["documents"]:
-                _ = upsert_planning_application_document(self.cur, uuid, document)
-
-            geometry: IdoxPlanningApplicationGeometry = item["geometry"]
-            _ = upsert_planning_application_geometry(self.cur, uuid, geometry)
-
-            self.connection.commit()
-
-        except Exception as e:
-            self.connection.rollback()
-            spider.logger.error(f"Error inserting item into the database: {e}")
-            raise
-
-        return item
 
     def process_planning_application_geometry(self, item: PlanningApplicationGeometry, spider):
         spider.logger.info(f"Inserting planning application geometry {item.reference}")
