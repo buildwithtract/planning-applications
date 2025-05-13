@@ -24,7 +24,7 @@ class LogScraperRunMiddleware:
         if not spider.crawler.stats:
             return
 
-        stats = spider.crawler.stats.get_stats()
+        stats = spider.crawler.stats.get_stats() if spider.crawler.stats else {}
         spider_class = f"{spider.__class__.__module__}.{spider.__class__.__name__}"
 
         upsert_scraper_run(self.cursor, spider_class, stats)

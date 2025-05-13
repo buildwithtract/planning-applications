@@ -216,7 +216,11 @@ def main():
     if args.command == "appeals":
         appeals_args = vars(args)
         del appeals_args["command"]
-        run_appeals(**appeals_args)
+        run_appeals(
+            from_date=appeals_args["from_date"],
+            to_date=appeals_args["to_date"],
+            metadata_only=appeals_args.get("metadata_only", False),
+        )
         return
 
     if args.command == "lpas":

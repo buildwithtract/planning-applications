@@ -108,11 +108,10 @@ class PostgresPipeline:
         try:
             uuid = upsert_planning_application(self.cur, item)
 
-            if item.documents:
-                for document in item.documents:
-                    _ = upsert_planning_application_document(self.cur, uuid, document)
+            for document in item.documents or []:
+                _ = upsert_planning_application_document(self.cur, uuid, document)
 
-            if item.geometry:
+            if isinstance(item.geometry, (PlanningApplicationGeometry, IdoxPlanningApplicationGeometry)):
                 _ = upsert_planning_application_geometry(self.cur, uuid, item.geometry)
 
             self.connection.commit()

@@ -228,7 +228,13 @@ class AppealsSpider(scrapy.Spider):
                 item_data[date_key] = None
 
         self.logger.info(f"Yielding item for case ID {case_id}")
-        yield PlanningApplicationAppeal(**item_data)
+        yield PlanningApplicationAppeal(
+            lpa=item_data["lpa"],
+            url=item_data["url"],
+            reference=item_data["reference"],
+            case_id=item_data["case_id"],
+            **{k: v for k, v in item_data.items() if k not in {"lpa", "url", "reference", "case_id"}},
+        )
 
         # Does this case have any documents?
         documents_container = response.css("#cphMainContent_labDecisionLink")
