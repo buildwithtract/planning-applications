@@ -21,7 +21,7 @@ We use [uv](https://docs.astral.sh) to manage dependencies. Follow their [setup 
 
 3. Run `cp .env.example .env` to create a new .env file.
 
-4. Create a [Zyte account](https://www.zyte.com/signup/) and paste your API key into the .env file
+4. Create a [Zyte account](https://www.zyte.com/sign-up/) and paste your API key into the .env file
 
 5. Run `make reset_db` to set up a fresh postgres instance
 
